@@ -59,7 +59,7 @@ pub(super) fn parse_mantissa<'a, Data>(data: Data, radix: u32, max_digits: usize
     let small_powers = Bigint::small_powers(radix);
     let count = data.mantissa_digits();
     let bits = count / integral_binary_factor(radix).as_usize();
-    let bytes = bits / <Limb as Integer>::BITS;
+    let bytes = bits / <Limb as Integer>::BITS as usize;
 
     // Main loop
     let step = small_powers.len() - 2;
