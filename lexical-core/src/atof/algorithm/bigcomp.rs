@@ -172,7 +172,7 @@ pub(super) fn make_ratio<F: Float>(radix: u32, sci_exponent: i32, f: F, kind: Ro
         // denominator will be normalized.
         // We need to add one to the quotient,since we're calculating the
         // ceiling of the divmod.
-        let (q, r) = shift.ceil_divmod(<Limb as Integer>::BITS);
+        let (q, r) = shift.ceil_divmod(<Limb as Integer>::BITS as usize);
         // Since we're using a power from the denominator to the
         // numerator, we to invert r, not add u32::BITS.
         let r = -r;
