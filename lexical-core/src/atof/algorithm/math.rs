@@ -1046,7 +1046,7 @@ perftools_inline!{
 pub fn trailing_zeros(x: &[Limb]) -> usize {
     // Get the index of the last non-zero value
     let index = trailing_zero_limbs(x);
-    let mut count = index.saturating_mul(<Limb as Integer>::BITS);
+    let mut count = index.saturating_mul(<Limb as Integer>::BITS as usize);
     if let Some(value) = x.get(index) {
         count = count.saturating_add(value.trailing_zeros().as_usize());
     }
@@ -1061,9 +1061,9 @@ pub fn bit_length(x: &[Limb]) -> usize {
     // Avoid overflowing, calculate via total number of bits
     // minus leading zero bits.
     let nlz = leading_zeros(x);
-    <Limb as Integer>::BITS.checked_mul(x.len())
-        .map(|v| v - nlz)
-        .unwrap_or(usize::max_value())
+    <Limb as Integer>::BITS.checked_mul(x.len() as u32)
+        .map(|v| v - nlz as u32)
+        .unwrap_or(usize::max_value() as u32) as usize
 }}
 
 // BIT LENGTH
@@ -1087,7 +1087,7 @@ pub fn ishr_bits<T>(x: &mut T, n: usize)
     where T: CloneableVecLike<Limb>
 {
     // Need to shift by the number of `bits % Limb::BITS`.
-    let bits = <Limb as Integer>::BITS;
+    let bits = <Limb as Integer>::BITS as usize;
     debug_assert!(n < bits && n != 0);
 
     // Internally, for each item, we shift left by n, and add the previous
@@ -1134,7 +1134,7 @@ pub fn ishr<T>(x: &mut T, n: usize)
     -> bool
     where T: CloneableVecLike<Limb>
 {
-    let bits = <Limb as Integer>::BITS;
+    let bits = <Limb as Integer>::BITS as usize;
     // Need to pad with zeros for the number of `bits / Limb::BITS`,
     // and shift-left with carry for `bits % Limb::BITS`.
     let rem = n % bits;
@@ -1193,7 +1193,7 @@ pub fn ishl_bits<T>(x: &mut T, n: usize)
     where T: CloneableVecLike<Limb>
 {
     // Need to shift by the number of `bits % Limb::BITS)`.
-    let bits = <Limb as Integer>::BITS;
+    let bits = <Limb as Integer>::BITS as usize;
     debug_assert!(n < bits);
     if n.is_zero() {
         return;
@@ -1253,7 +1253,7 @@ perftools_inline!{
 pub fn ishl<T>(x: &mut T, n: usize)
     where T: CloneableVecLike<Limb>
 {
-    let bits = <Limb as Integer>::BITS;
+    let bits = <Limb as Integer>::BITS as usize;
     // Need to pad with zeros for the number of `bits / Limb::BITS`,
     // and shift-left with carry for `bits % Limb::BITS`.
     let rem = n % bits;
@@ -2068,7 +2068,7 @@ fn calculate_remainder<T>(x: &[Limb], y: &[Limb], s: usize)
     let n = y.len();
     let mut r = T::default();
     r.reserve_exact(n);
-    let rs = <Limb as Integer>::BITS - s;
+    let rs = <Limb as Integer>::BITS as usize - s;
     for i in 0..n-1 {
         let xi = as_wide(x[i]) >> s;
         let xi1 = as_wide(x[i+1]) << rs;
