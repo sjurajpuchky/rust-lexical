@@ -1061,9 +1061,9 @@ pub fn bit_length(x: &[Limb]) -> usize {
     // Avoid overflowing, calculate via total number of bits
     // minus leading zero bits.
     let nlz = leading_zeros(x);
-    <Limb as Integer>::BITS.checked_mul(x.len() as u32)
-        .map(|v| v - nlz as u32)
-        .unwrap_or(usize::max_value() as u32) as usize
+    <Limb as Integer>::BITS.checked_mul(x.len() as usize)
+        .map(|v| v - nlz as usize)
+        .unwrap_or(usize::max_value() as usize) as usize
 }}
 
 // BIT LENGTH
