@@ -351,6 +351,9 @@ lexical uses [semantic versioning](https://semver.org/). Removing support for Ru
 
 All changes are documented in [CHANGELOG](https://github.com/Alexhuszagh/rust-lexical/blob/main/CHANGELOG).
 
+# Fix
+Fixed in branche v0.6, problems with lexical-core math u32 to usize
+
 # License
 
 Lexical is dual licensed under the Apache 2.0 license as well as the MIT license. See the LICENCE-MIT and the LICENCE-APACHE files for the licenses. Lexical also ports some code from [Dragonbox](https://github.com/jk-jeon/dragonbox/) (for the default float writer), [V8](https://github.com/v8/v8) (for writing floats of any radix), [libgo](https://golang.org/src) (for the compact float parser), [fast_float](https://github.com/fastfloat/fast_float) (for the default float parser), and [fpconv](https://github.com/night-shift/fpconv) (for the compact float writer), and therefore using certain features will also require compliance with various BSD-like licenses and the Boost Software License, all permissive licenses.
