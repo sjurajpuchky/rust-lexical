@@ -154,7 +154,7 @@ pub(super) fn make_ratio<F: Float>(radix: u32, sci_exponent: i32, f: F, kind: Ro
     // Scale the denominator so it has the number of bits
     // in the radix as the number of leading zeros.
     let wlz = integral_binary_factor(radix).as_usize();
-    let nlz = den.leading_zeros().wrapping_sub(wlz) & (<u32 as Integer>::BITS - 1);
+    let nlz = den.leading_zeros().wrapping_sub(wlz) & (<u32 as Integer>::BITS - 1) as usize;
     small::ishl_bits(den.data_mut(), nlz);
     den.exp -= nlz.as_i32();
 
